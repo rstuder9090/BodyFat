@@ -1,4 +1,7 @@
 # Body Fat
+Project for UW-Madison STAT 629 Module 2 - Group 11. 
+Looking for a simple, robust, accurate "rule of thumb" to estimate body fat percentage among men. 
+Created with R 4.1.1
 
 ## Data Folder
 Contains any data raw or cleaned
