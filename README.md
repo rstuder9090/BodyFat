@@ -5,7 +5,6 @@ Created with R 4.1.1
 
 ## Data Folder
 Contains any data raw or cleaned
-- BodyFat.csv
 - [BodyFat.csv](Data/BodyFat.csv) raw data
 - [BodyFat2.csv](Data/BodyFat2.csv) cleaned data
 
