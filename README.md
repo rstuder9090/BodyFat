@@ -9,9 +9,10 @@ Contains any data raw or cleaned
 - [BodyFat2.csv](Data/BodyFat2.csv) cleaned data
 
 ## Code Folder
-Contains any R code for analysis, visualization, or cleaning
+Contains any R code for cleaning, analysis, visualization, or Shiny App creation
 - [Data_Cleaning.R](Code/Data_Cleaning.R) code to load the data, create new metric variables for height and weight, and look for outliers.
+- [app.R](Code/app.R) code to run Shiny App
 
 
 ## How to use Code
-Download [BodyFat.csv](Data/BodyFat.csv) and [Data_Cleaning.R](Code/Data_Cleaning.R) into directory of choice. Set working directory to respective directory. Run [Data_Cleaning.R](Code/Data_Cleaning.R) to create clean [BodyFat2.csv](Data/BodyFat2.csv)
+Download all files in Code folder into directory of choice. Set working directory to respective directory. Run [Data_Cleaning.R](Code/Data_Cleaning.R) to create clean [BodyFat2.csv](Data/BodyFat2.csv). Run [app.R](Code/app.R) to deploy the Shiny App locally.
