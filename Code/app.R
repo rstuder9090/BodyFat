@@ -64,9 +64,9 @@ server<- function(input, output) {
       geom_histogram(bins=40, color = "black",fill = "#337AB7")+
       xlab("Body Fat Percentage")+
       ylab("Count")+
-      geom_vline(xintercept= fin(), color = "red", linetype="longdash")
+      geom_vline(xintercept= fin(), color = "red", linetype="longdash", size = 1.25)
   })
-  output$fin <- renderText({fin()})
+  output$fin <- renderText({paste(round(fin(),2), "%")})
 }
 
 
