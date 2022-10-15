@@ -7,6 +7,7 @@ library(ggplot2)
 
 # Load Data
 BodyFat <- read_csv("BodyFat.csv")
+names(BodyFat)
 
 # Create metric versions of height and weight
 BodyFat<- BodyFat %>% mutate(WEIGHT_KG = round(WEIGHT*0.45359237,2),
