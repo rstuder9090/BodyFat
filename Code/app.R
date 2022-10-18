@@ -43,6 +43,7 @@ ui<- fluidPage(
     mainPanel(width =6,
               h3("Your predicted Body Fat Percentage:"),
               verbatimTextOutput("fin"),
+              span(htmlOutput("note"),style = "color:red"),
               h5("The red line in the graph below indicates where your body fat percentage falls with respect to the rest of the participants in this dataset."),
               plotOutput("hist"),
               p(),
@@ -64,8 +65,15 @@ B3<- summary(modelsub)$coefficient[4,1]
 
 server<- function(input, output) {
   
-  fin<- reactive({B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)
+  fin<- reactive({
+    if ((B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)) >= 4 & 
+        (B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)) <= 50){
+      B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)
+    }else{
+      0
+    }
   })
+  
   output$hist <- renderPlot({
     ggplot(BodyFatsub2,aes(BODYFAT))+
       geom_histogram(bins=40, color = "black",fill = "#9FBEF0")+
@@ -73,7 +81,56 @@ server<- function(input, output) {
       ylab("Count")+
       geom_vline(xintercept= fin(), color = "red", linetype="longdash", size = 1.25)
   })
+  
   output$fin <- renderText({paste(round(fin(),2), "%")})
+  
+  a_input<-reactive({
+    if(input$ab > 302){
+      max
+    }else if(input$ab < 40){
+      min
+    }else{
+      input$ab
+    }
+  })
+  wr_input<-reactive({
+    if(input$wrist > 40){
+      max
+    }else if(input$wrist < 5){
+      min
+    }else{
+      input$wrist
+    }
+  })
+  we_input<-reactive({
+    if(input$weight > 453){
+      max
+    }else if(input$weight < 22){
+      min
+    }else{
+      input$weight
+    }
+  })
+  
+  textnote<-reactive({
+    if(input$ab < 40){
+      paste("WARNING: Your Abdomen input is not within range")
+    }else if (input$ab >302){
+      paste("WARNING: Your Abdomen input is not within range")
+    }else if (input$wrist < 5){
+      paste("WARNING: Your Wrist input is not within range")
+    }else if (input$wrist > 40) {
+      paste("WARNING: Your Wrist input is not within range")
+    }else if (input$weight < 22){
+      paste("WARNING: Your Weight input is not within range")
+    }else if (input$weight > 453){
+      paste("WARNING: Your Weight input is not within range")
+    }else{
+     paste("")
+    }
+  })
+  
+  output$note<-renderText({HTML(textnote())}) 
 }
 
 
