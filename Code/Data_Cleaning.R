@@ -4,12 +4,12 @@
 library(readr)
 library(dplyr)
 library(ggplot2)
-library("reshape2")
+library(reshape2)
 
 # Load Data
-BodyFat <- read.csv("./Data/BodyFat.csv")
+BodyFat <- read.csv("BodyFat.csv")
 
-# Create metric versions of height and weight
+# Create BoxPlots
 tmp <- subset(BodyFat, select = c(BODYFAT,ABDOMEN, WRIST, WEIGHT,FOREARM)) #take out ID, Density, and non-metric height and weight.
 tmp_long <-melt(tmp)
 boxplots.m <- ggplot(tmp_long, aes(x = variable, y = value)) +            # Applying ggplot function
@@ -41,6 +41,8 @@ boxplots.m <- ggplot(tmp_long, aes(x = variable, y = value)) +            # Appl
         plot.title.position = "plot")
 boxplots.m
 boxplots.others
+
+
 # Check for outliers using boxplots on all variables
 # Body Fat
 boxplot(BodyFat$BODYFAT, ylab="Body Fat") #outliers found
@@ -63,6 +65,10 @@ BodyFat<- BodyFat %>% mutate(HEIGHT = case_when(
   HEIGHT == 29.50 ~ 69.43,
   TRUE ~ HEIGHT
 ))
+
+# Create metric versions of height and weight
+BodyFat<- BodyFat %>% mutate(WEIGHT_KG = round(WEIGHT*0.45359237,2),
+                             HEIGHT_CM = round(HEIGHT*2.54,2))
 
 # BMI
 boxplot(BodyFat$ADIPOSITY, ylab="BMI")
@@ -122,4 +128,5 @@ BodyFat$IDNO[BodyFat$WRIST>20.50]
 # Only took out Body Fat measures of < 4, due to inability to find online "calculator" of body fat accurate enough to the data - for replacement.
 
 # Write new csv file with clean data -> BodyFat2.csv
-# write.csv(BodyFat, "~/Desktop/628 Practicum/Mod 2//BodyFat2.csv")
+path<- getwd()
+write.csv(BodyFat, file.path(path, "BodyFat2.csv"), row.names = FALSE)
