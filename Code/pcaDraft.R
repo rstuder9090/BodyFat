@@ -6,7 +6,7 @@ library(ggfortify)
 
 ###############################################################################
 # read the data
-data <- read.csv(file = "./Data/BodyFat2.csv",header=T)
+data <- read.csv(file = "BodyFat2.csv",header=T)
 head(data)
 # corrplot(cor(data), type = "upper", order = "hclust",
 #          tl.col = "black", tl.srt = 45)
