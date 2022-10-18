@@ -28,5 +28,7 @@ Download all files in Code folder into directory of choice.
 Set working directory to respective directory. 
 
 Run [Data_Cleaning.R](Code/Data_Cleaning.R) to create clean [BodyFat2.csv](Data/BodyFat2.csv). 
+
 Run [LM.R](Code/LM.R) to view model diagnostics and process with graphs.
+
 Run [app.R](Code/app.R) to deploy the Shiny App locally.
