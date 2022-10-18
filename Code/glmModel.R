@@ -1,4 +1,4 @@
-data <- read.csv(file = "./Data/BodyFat2.csv",header=T)
+data <- read.csv(file = "BodyFat2.csv",header=T)
 head(data)
 
 # Gaussian link, same as linear regression
