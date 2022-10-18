@@ -1,10 +1,12 @@
 library(shiny)
 library(readr)
 library(ggplot2)
+library(dplyr)
 
-BodyFat<- read.csv("BodyFat2.csv", header=T)
-pca.lm<- lm(BODYFAT~AGE + ADIPOSITY + NECK, data=BodyFat)
-summary(pca.lm)
+BodyFat2<- read.csv("BodyFat2.csv", header=T)
+BodyFatsub<- BodyFat2 %>% filter(IDNO != 39)
+BodyFatsub2<- subset(BodyFatsub, select = -c(IDNO, DENSITY, WEIGHT, HEIGHT))
+modelsub<- lm(BODYFAT~ ABDOMEN + WRIST + WEIGHT_KG, data=BodyFatsub2)
 
 ui<- fluidPage(
   
@@ -12,33 +14,29 @@ ui<- fluidPage(
   
   sidebarLayout(
     
-    sidebarPanel(width =6,
+    sidebarPanel(width = 6,
                  helpText("Enter your information to the best of your ability:"),
-                 sliderInput(inputId = "age",
-                             label = "Age",
-                             min = 20,
-                             max = 90,
-                             value =45,
-                             step = 1,
-                             width = '100%'),
-                 numericInput(inputId = "height",
-                              label = "Height (cm)",
-                              min = 90,
-                              max = 250,
-                              value = 0,
+                 numericInput(inputId = "ab",
+                             label = "Abdomen Circumference (cm)",
+                             min = 40,
+                             max = 302,
+                             value = 92,
+                             step = 0.25),
+                 helpText("Abdomen circumference should be measured at belly buttom level while looking standing straight."),
+                 numericInput(inputId = "wrist",
+                              label = "Wrist Circumference (cm)",
+                              min = 5,
+                              max = 40,
+                              value = 18,
                               step = 0.25),
+                 helpText("Wrist circumference should be measured where your hand and forearm join."),
                  numericInput(inputId = "weight",
                               label = "Weight (kg)",
-                              min = 30,
-                              max = 230,
-                              value = 0,
+                              min = 22,
+                              max = 453,
+                              value = 81,
                               step = 0.25),
-                 numericInput(inputId = "neck",
-                              label = "Neck Circumference (cm)",
-                              min = 20,
-                              max = 60,
-                              value = 0),
-                 helpText("Neck circumference should be measured just below the Adam's Apple while looking straight forward."),
+                 helpText("Please enter weight in kilograms"),
                  submitButton(text="Calculate my Body Fat %")
     ),
     
@@ -48,25 +46,28 @@ ui<- fluidPage(
               h5("The red line in the graph below indicates where your body fat percentage falls with respect to the rest of the participants in this dataset."),
               plotOutput("hist"),
               p(),
-              p("Note: this predicted value is based on only the 4 given criteria.", align="center"),
-              p(span("THIS IS NOT TO BE USED AS A MEDICALLY ACCURATE MEASUREMENT OF HEALTH/FITNESS",style = "color:red"), align = "center")
+              p("Note: this predicted value is based on only the 3 given criteria.", align="center"),
+              p(span("THIS IS NOT TO BE USED AS A MEDICALLY ACCURATE MEASUREMENT OF HEALTH/FITNESS",style = "color:red"), align = "center"),
+              p(),
+              p(),
+              p(em("For help contact the app author: Rachel Studer (rlstuder@wisc.edu)"), align = "center")
     )
   )
 )
 
 
-B0<- summary(pca.lm)$coefficient[1,1]
-B1<- summary(pca.lm)$coefficient[2,1]
-B2<- summary(pca.lm)$coefficient[3,1]
-B3<- summary(pca.lm)$coefficient[4,1]
+B0<- summary(modelsub)$coefficient[1,1]
+B1<- summary(modelsub)$coefficient[2,1]
+B2<- summary(modelsub)$coefficient[3,1]
+B3<- summary(modelsub)$coefficient[4,1]
 
 
 server<- function(input, output) {
   
-  fin<- reactive({B0 + (B1*input$age) + (B2*(input$weight/((input$height * 0.01)^2))) + (B3*input$neck)
+  fin<- reactive({B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)
   })
   output$hist <- renderPlot({
-    ggplot(BodyFat,aes(BODYFAT))+
+    ggplot(BodyFatsub2,aes(BODYFAT))+
       geom_histogram(bins=40, color = "black",fill = "#9FBEF0")+
       xlab("Body Fat Percentage")+
       ylab("Count")+
