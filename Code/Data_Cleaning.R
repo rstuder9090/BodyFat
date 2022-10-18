@@ -4,15 +4,43 @@
 library(readr)
 library(dplyr)
 library(ggplot2)
+library("reshape2")
 
 # Load Data
-BodyFat <- read_csv("BodyFat.csv")
-names(BodyFat)
+BodyFat <- read.csv("./Data/BodyFat.csv")
 
 # Create metric versions of height and weight
-BodyFat<- BodyFat %>% mutate(WEIGHT_KG = round(WEIGHT*0.45359237,2),
-                             HEIGHT_CM = round(HEIGHT*2.54,2))
-
+tmp <- subset(BodyFat, select = c(BODYFAT,ABDOMEN, WRIST, WEIGHT,FOREARM)) #take out ID, Density, and non-metric height and weight.
+tmp_long <-melt(tmp)
+boxplots.m <- ggplot(tmp_long, aes(x = variable, y = value)) +            # Applying ggplot function
+            geom_boxplot(color="red",outlier.color="black")+
+            labs(x = "Variable")+
+            labs(y = "Value")+
+            labs(title = 'Boxplots for Variables')+
+            theme(plot.title = element_text(family="serif",
+                                            face="bold",
+                                            color=4,
+                                            hjust = 0.5),
+                  plot.subtitle = element_text(family="serif",
+                                               hjust = 0.5),
+                  plot.title.position = "plot")
+boxplots.m
+tmp <- subset(BodyFat, select = -c(IDNO,BODYFAT,ABDOMEN, WRIST, WEIGHT,FOREARM)) #take out ID, Density, and non-metric height and weight.
+tmp_long <-melt(tmp)
+boxplots.m <- ggplot(tmp_long, aes(x = variable, y = value)) +            # Applying ggplot function
+  geom_boxplot(color="red",outlier.color="black")+
+  labs(x = "Variable")+
+  labs(y = "Value")+
+  labs(title = 'Boxplots for Variables')+
+  theme(plot.title = element_text(family="serif",
+                                  face="bold",
+                                  color=4,
+                                  hjust = 0.5),
+        plot.subtitle = element_text(family="serif",
+                                     hjust = 0.5),
+        plot.title.position = "plot")
+boxplots.m
+boxplots.others
 # Check for outliers using boxplots on all variables
 # Body Fat
 boxplot(BodyFat$BODYFAT, ylab="Body Fat") #outliers found
