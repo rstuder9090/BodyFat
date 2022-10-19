@@ -22,7 +22,7 @@ ui<- fluidPage(
                              max = 302,
                              value = 92,
                              step = 0.25),
-                 helpText("Abdomen circumference should be measured at belly buttom level while looking standing straight."),
+                 helpText("Abdomen circumference should be measured at belly buttom level while standing straight."),
                  numericInput(inputId = "wrist",
                               label = "Wrist Circumference (cm)",
                               min = 5,
@@ -41,9 +41,10 @@ ui<- fluidPage(
     ),
     
     mainPanel(width =6,
-              h3("Your predicted Body Fat Percentage:"),
+              h3("Your Predicted Body Fat Percentage:"),
               verbatimTextOutput("fin"),
               span(htmlOutput("note"),style = "color:red"),
+              span(htmlOutput("finnote2"),style = "color:red"),
               h5("The red line in the graph below indicates where your body fat percentage falls with respect to the rest of the participants in this dataset."),
               plotOutput("hist"),
               p(),
@@ -84,53 +85,73 @@ server<- function(input, output) {
   
   output$fin <- renderText({paste(round(fin(),2), "%")})
   
+  
   a_input<-reactive({
     if(input$ab > 302){
       max
-    }else if(input$ab < 40){
+    }
+    else if(input$ab < 40){
       min
-    }else{
+    }
+      else{
       input$ab
     }
   })
   wr_input<-reactive({
     if(input$wrist > 40){
       max
-    }else if(input$wrist < 5){
+    }
+    else if(input$wrist < 5){
       min
-    }else{
+    }
+    else{
       input$wrist
     }
   })
   we_input<-reactive({
     if(input$weight > 453){
       max
-    }else if(input$weight < 22){
+    }
+    else if(input$weight < 22){
       min
-    }else{
+    }
+    else{
       input$weight
     }
   })
   
+  finnote<- reactive ({
+    if((B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)) <= 0 ){
+      paste("WARNING: Your Predicted Body Fat % is Negative")
+    }else if((B0 + (B1*input$ab) + (B2*input$wrist) + (B3*input$weight)) >= 50 ){
+      paste("WARNING: Your Predicted Body Fat % is Physically Impossible")
+    }
+    else{
+        print("")
+      }
+  })
+  output$finnote2<-renderText({HTML(finnote())})
+  
   textnote<-reactive({
     if(input$ab < 40){
-      paste("WARNING: Your Abdomen input is not within range")
+      paste("WARNING: Your ABDOMEN Input is Not Within Range")
     }else if (input$ab >302){
-      paste("WARNING: Your Abdomen input is not within range")
+      paste("WARNING: Your ABDOMEN Input is Not Within Range")
     }else if (input$wrist < 5){
-      paste("WARNING: Your Wrist input is not within range")
+      paste("WARNING: Your WRIST Input is Not Within Range")
     }else if (input$wrist > 40) {
-      paste("WARNING: Your Wrist input is not within range")
+      paste("WARNING: Your WRIST Input is Not Within Range")
     }else if (input$weight < 22){
-      paste("WARNING: Your Weight input is not within range")
+      paste("WARNING: Your WEIGHT Input is Not Within Range")
     }else if (input$weight > 453){
-      paste("WARNING: Your Weight input is not within range")
-    }else{
+      paste("WARNING: Your WEIGHT Input is Not Within Range")
+    }
+    else{
      paste("")
     }
   })
   
-  output$note<-renderText({HTML(textnote())}) 
+  output$note<-renderText({HTML(textnote())})   
 }
 
 
