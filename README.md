@@ -17,8 +17,8 @@ Contains any R code for cleaning, analysis, visualization, or Shiny App creation
 - [Data_Cleaning.R](Code/Data_Cleaning.R) code to load the data, create new metric variables for height and weight, and look for outliers.
 - [LM.R](Code/LM.R) code to run stepwise regression for linear models and diagnostic plots.
 - [app.R](Code/app.R) code to run Shiny App.
-- [glmModel.R](Code/glmModel.R)
-- [pcaDraft.R](Code/pcaDraft.R) 
+- [glmModel.R](Code/glmModel.R) code for GLM model
+- [pcaDraft.R](Code/pcaDraft.R) code for PCA
 
 ## Images Folder
 Contains all important images relative to analysis.
