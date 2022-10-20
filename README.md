@@ -36,4 +36,4 @@ Set working directory to respective directory.
 Run [Data_Cleaning.R](Code/Data_Cleaning.R) to create clean [BodyFat2.csv](Data/BodyFat2.csv). 
 Run [LM.R](Code/LM.R) to view model diagnostics and process with graphs.
 Run [app.R](Code/app.R) to deploy the Shiny App locally.
-RUn [final_model_plot.r](final_model_plot.R) to view the representation of model fit.
+Run [final_model_plot.r](final_model_plot.R) to view the representation of model fit.
