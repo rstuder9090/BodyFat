@@ -4,12 +4,6 @@ Looking for a simple, robust, accurate "rule of thumb" to estimate body fat perc
 
 Created with R 4.1.1
 
-
-## Data Folder
-Contains any data raw or cleaned
-- [BodyFat.csv](Data/BodyFat.csv) raw data
-- [BodyFat2.csv](Data/BodyFat2.csv) cleaned data
-
 ## Code Folder
 Contains any R code for cleaning, analysis, visualization, or Shiny App creation.
 - [Data_Cleaning.R](Code/Data_Cleaning.R) code to load the data, create new metric variables for height and weight, and look for outliers.
@@ -19,14 +13,15 @@ Contains any R code for cleaning, analysis, visualization, or Shiny App creation
 - [glmModel.R](Code/glmModel.R) code for GLM model creation and analysis.
 - [pcaDraft.R](Code/pcaDraft.R) code for PCA model creation and analysis.
 
+
+## Data Folder
+Contains any data raw or cleaned
+- [BodyFat.csv](Data/BodyFat.csv) raw data
+- [BodyFat2.csv](Data/BodyFat2.csv) cleaned data
+
+
 ## Images Folder
 Contains all important images relative to analysis.
-
-## Summary
-Find a .pdf file of an Executive Summary for this project.
-
-## PowerPoint
-Find a .pptx file of our presentation on the important aspects of our analysis process/findings.
 
 
 ## How to use Code
