@@ -4,6 +4,9 @@ Looking for a simple, robust, accurate "rule of thumb" to estimate body fat perc
 
 Created with R 4.1.1
 
+## Shiny App
+[Body Fat Shiny App](https://rstuder9090.shinyapps.io/BodyFat/)
+
 ## Code Folder
 Contains any R code for cleaning, analysis, visualization, or Shiny App creation.
 - [Data_Cleaning.R](Code/Data_Cleaning.R) code to load the data, create new metric variables for height and weight, and look for outliers.
